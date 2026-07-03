@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZaxxyTools — High-Tier Platform Ecosystem</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-base: #060814;
+    --bg-surface: rgba(13, 17, 34, 0.7);
+    --bg-surface-hover: rgba(22, 28, 54, 0.9);
+    --border-subtle: rgba(168, 85, 247, 0.15);
+    --border-strong: rgba(168, 85, 247, 0.3);
+    
+    /* Luxury Accents */
+    --accent-purple: #a855f7;
+    --accent-purple-glow: rgba(168, 85, 247, 0.4);
+    --accent-gold: #f2b84b;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    padding-top: 140px;
+    letter-spacing: -0.01em;
+  }
+
+  /* 10 Million Luxury Ambient Backdrop */
+  .premium-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: 
+      radial-gradient(circle 800px at 50% -20%, rgba(168, 85, 247, 0.18), transparent 70%),
+      radial-gradient(circle 500px at 10% 40%, rgba(242, 184, 75, 0.05), transparent 60%),
+      radial-gradient(circle 600px at 90% 80%, rgba(168, 85, 247, 0.08), transparent 50%);
+  }
+  .premium-canvas::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 40%, black, transparent 85%);
+  }
+
+  .container { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* ULTRA-LUXURY FLOATING NAVBAR WITH MINIMALIST ||| MENU */
+  .nav-wrapper {
+    position: fixed;
+    top: 24px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0 24px;
+  }
+  nav {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(6, 8, 20, 0.6);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border-subtle);
+    border-radius: 100px;
+    padding: 10px 14px 10px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 24px 60px -15px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+  .brand-logo {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent-purple), #6366f1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 20px var(--accent-purple-glow);
+    font-weight: 700; font-size: 16px; color: #fff;
+  }
+  .brand-name b { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(to right, #fff, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  /* THE ULTRA-MINIMALIST SYSTEM (|||) Dropdown Container */
+  .nav-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* The "|||" Button Custom Style */
+  .trigger-triple-bar {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .trigger-triple-bar:hover, .nav-dropdown-wrapper:hover .trigger-triple-bar {
+    background: #fff;
+    color: var(--bg-base);
+    box-shadow: 0 10px 25px -5px rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
+
+  /* Luxury Hidden Dropdown Content Grid */
+  .dropdown-content {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 240px;
+    background: rgba(10, 13, 28, 0.95);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 0 32px 64px -16px rgba(0,0,0,0.9);
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  /* Reveal Dropdown on Hover */
+  .nav-dropdown-wrapper:hover .dropdown-content {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .menu-btn {
+    width: 100%;
+    background: transparent; border: none; color: var(--text-muted);
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 13.5px;
+    padding: 12px 18px; border-radius: 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 12px; transition: all 0.2s ease;
+    text-align: left;
+  }
+  .menu-btn svg { width: 16px; height: 16px; transition: transform 0.3s; color: var(--text-muted); }
+  .menu-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.04); }
+  .menu-btn:hover svg { color: var(--accent-purple); transform: translateX(2px); }
+  
+  .menu-btn.active {
+    background: rgba(168, 85, 247, 0.12);
+    color: var(--accent-purple);
+    font-weight: 700;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+  }
+  .menu-btn.active svg { color: var(--accent-purple); }
+
+  .status-pill {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px; padding-right: 14px;
+  }
+  .status-indicator { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; }
+
+  /* RETINA HERO HEADINGS */
+  .hero { text-align: center; padding: 60px 0 40px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: clamp(36px, 6vw, 56px); line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 em { font-style: italic; font-weight: 500; background: linear-gradient(135deg, var(--accent-gold), #ffe4a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { font-size: 16px; color: var(--text-muted); max-width: 560px; margin: 0 auto; line-height: 1.6; font-weight: 400; }
+
+  /* ECOSYSTEM DASHBOARD SYSTEM */
+  .dashboard-segment { display: none; animation: segmentReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .dashboard-segment.active { display: block; }
+  @keyframes segmentReveal {
+    from { opacity: 0; transform: translateY(15px) scale(0.98); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+
+  /* CLASSY VAULT ARCHITECTURE */
+  .vault-container { max-width: 720px; margin: 0 auto 32px; }
+  .enterprise-vault {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  .enterprise-vault:focus-within {
+    border-color: var(--border-strong);
+    box-shadow: 0 40px 80px -20px rgba(168, 85, 247, 0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .input-structure {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.03);
+    border-radius: calc(var(--radius-lg) - 6px); padding: 8px 8px 8px 24px;
+  }
+  .input-icon { width: 20px; height: 20px; color: var(--text-muted); display: flex; align-items: center; }
+  .main-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    padding: 14px 0; width: 100%;
+  }
+  .main-input::placeholder { color: #4b5563; }
+
+  /* THE 10-MILLION LUXURY BUTTON */
+  .action-btn {
+    flex: 0 0 auto;
+    background: #fff; color: var(--bg-base);
+    border: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 13.5px;
+    padding: 14px 28px; border-radius: calc(var(--radius-lg) - 10px); cursor: pointer;
+    display: flex; align-items: center; gap: 8px; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative; overflow: hidden;
+  }
+  .action-btn::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%); transition: transform 0.6s;
+  }
+  .action-btn:hover {
+    transform: translateY(-2px); box-shadow: 0 12px 24px rgba(255,255,255,0.15);
+  }
+  .action-btn:hover::before { transform: translateX(100%); }
+  .action-btn:active { transform: translateY(0); }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+  .vault-meta { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  .badge-tag { padding: 4px 12px; border-radius: 100px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.2); text-transform: uppercase; font-size: 9px; font-weight: 600; color: var(--accent-purple); letter-spacing: 0.05em; }
+
+  /* DIGITAL RECEIPT & OUTPUT CARDS */
+  .output-container { max-width: 720px; margin: 0 auto 40px; }
+  .receipt-card {
+    background: rgba(13, 17, 34, 0.4); border: 1px dashed rgba(168, 85, 247, 0.25);
+    border-radius: 20px; padding: 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .receipt-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.08); text-transform: uppercase; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--accent-purple); }
+
+  /* PREMIUM SPINNER */
+  .loading-row { display: flex; align-items: center; gap: 14px; color: var(--text-main); font-weight: 500; }
+  .luxury-spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--accent-purple); border-radius: 50%; animation: dualSpin 0.7s linear infinite; }
+  @keyframes dualSpin { to { transform: rotate(360deg); } }
+
+  /* MEDIA EXTRACTION DISPLAY */
+  .media-profile { display: flex; gap: 20px; align-items: center; }
+  .media-cover { width: 76px; height: 76px; flex: 0 0 auto; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: var(--bg-base); }
+  .media-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .media-headline { color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .download-directory { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 20px; }
+  .download-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 12px 18px; transition: background 0.2s; }
+  .download-row:hover { background: rgba(168, 85, 247, 0.03); border-color: rgba(168, 85, 247, 0.15); }
+  .download-title { color: var(--text-main); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+  .download-title svg { width: 16px; height: 16px; color: var(--accent-purple); }
+  
+  a.download-trigger {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-main);
+    text-decoration: none; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 8px; transition: all 0.2s;
+  }
+  a.download-trigger:hover { background: #fff; color: var(--bg-base); border-color: #fff; box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+
+  /* STUDIO REMOVE BG DRAG-DROP AREA */
+  .studio-uploader {
+    border: 2px dashed rgba(168, 85, 247, 0.25); border-radius: var(--radius-lg); padding: 54px 24px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); background: rgba(0,0,0,0.15); margin-bottom: 24px;
+  }
+  .studio-uploader:hover { border-color: var(--accent-purple); background: rgba(168, 85, 247, 0.02); box-shadow: 0 0 30px rgba(168, 85, 247, 0.05); }
+  .studio-uploader svg { width: 40px; height: 40px; color: var(--text-muted); margin-bottom: 16px; transition: color 0.3s; }
+  .studio-uploader:hover svg { color: var(--accent-purple); }
+  .studio-uploader p { font-size: 15px; color: var(--text-main); font-weight: 600; }
+  .studio-uploader span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); display: block; margin-top: 6px; }
+
+  .studio-preview { text-align: center; margin-top: 16px; animation: segmentReveal 0.4s ease; }
+  .studio-canvas-render {
+    max-height: 260px; border-radius: 16px; overflow: hidden;
+    background-image: linear-gradient(45deg, #090b16 25%, transparent 25%), linear-gradient(-45deg, #090b16 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #090b16 75%), linear-gradient(-45deg, transparent 75%, #090b16 75%);
+    background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    border: 1px solid rgba(255,255,255,0.06); display: inline-block; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  }
+  .studio-canvas-render img { max-height: 260px; max-width: 100%; display: block; }
+
+  /* SIGNATURE ENTERPRISE FOOTER */
+  footer { border-top: 1px solid rgba(255,255,255,0.03); padding: 40px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 100px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  footer b { color: var(--text-main); font-weight: 500; }
+
+  /* RESPONSIVE LAYOUT SYSTEM */
+  @media (max-width: 540px) {
+    .input-structure { flex-wrap: wrap; padding: 10px; border-radius: 18px; }
+    .action-btn { width: 100%; justify-content: center; padding: 16px; border-radius: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="premium-canvas"></div>
+
+<!-- NAVIGATION ARCHITECTURE CONTAINER -->
+<div class="nav-wrapper">
+  <nav>
+    <a href="#" class="brand" onclick="switchDashboard('home')">
+      <div class="brand-logo">Z</div>
+      <div class="brand-name"><b>ZAXXYTOOLS</b></div>
+    </a>
+    
+    <!-- Premium Dropdown Menu Configured with ||| Structure -->
+    <div class="nav-dropdown-wrapper">
+      <button class="trigger-triple-bar">|||</button>
+      
+      <div class="dropdown-content">
+        <button class="menu-btn active" data-target="home" onclick="switchDashboard('home')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </button>
+        <button class="menu-btn" data-target="downloader" onclick="switchDashboard('downloader')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Downloader
+        </button>
+        <button class="menu-btn" data-target="cloner" onclick="switchDashboard('cloner')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+          Web Cloner
+        </button>
+        <button class="menu-btn" data-target="removebg" onclick="switchDashboard('removebg')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/><circle cx="12" cy="12" r="3"/></svg>
+          Remove BG
+        </button>
+      </div>
+    </div>
+
+    <div class="status-pill"><span class="status-indicator"></span> Core v2.0</div>
+  </nav>
+</div>
+
+<div class="container">
+
+  <!-- SEGMENT 0: HOME LANDING INTERFACE -->
+  <div id="panel-home" class="dashboard-segment active">
+    <section class="hero">
+      <h1>Advanced <em>Web Utility</em> Hub</h1>
+      <p>Selamat datang di ZaxxyTools. Ekosistem platform berkinerja tinggi untuk memproses media online, replikasi web, dan pengolahan aset berbasis teknologi cerdas.</p>
+    </section>
+  </div>
+
+  <!-- SEGMENT 1: MEDIA DOWNLOADER -->
+  <div id="panel-downloader" class="dashboard-segment">
+    <section class="hero">
+      <h1>Universal <em>Media</em> Core Engine</h1>
+      <p>Ekstraksi & kompresi stream data video HD otomatis tanpa kehilangan bit-rate original dari CDN sosial media global.</p>
+    </section>
+    
+    <div class="vault-container">
+      <div class="enterprise-vault">
+        <div class="input-structure">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <input type="text" id="mediaUrl" class="main-input" placeholder="Masukkan URL source stream...">
+          <button class="action-btn" id="btnFetch" onclick="processDownloader()">
+            Execute Process
+          </button>
+        </div>
+        <div class="vault-meta">
+          <span class="badge-tag">Auto-Tunneling</span>
+          <span>Gateway Secured via api.azbry.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="output-container" id="downloaderReceipt"></div>
+  </div>
+
+  <!-- SEGMENT 2: ADVANCED WEB CLONER -->
+  <div id="panel-cloner" class="dashboard-segment">
+    <section class="hero">
+      <h1>Automated <em>Web</em> Cloner Studio</h1>
+      <p>Analisis, pemetaan, dan kompilasi arsitektur komponen frontend target luar ke dalam paket bundel ZIP siap deploy.</p>
+    </section>
+
+    <div class="vault-container">
+      <div class="enterprise-vault">
+        <div class="input-structure">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
+          </div>
+          <input type="url" id="cloneUrl" class="main-input" placeholder="https://domain-target.com">
+          <button class="action-btn" id="btnClone" onclick="processCloner()">
+            Clone Target
+          </button>
+        </div>
+        <div class="vault-meta">
+          <span class="badge-tag">Asset Packager</span>
+          <span>Source Code Compilation</span>
+        </div>
+      </div>
+    </div>
+    <div class="output-container" id="clonerReceipt"></div>
+  </div>
+
+  <!-- SEGMENT 3: AI BACKGROUND REMOVER -->
+  <div id="panel-removebg" class="dashboard-segment">
+    <section class="hero">
+      <h1>Neural <em>Vision</em> BG Remover</h1>
+      <p>Algoritma pemisahan piksel subjek utama secara transparan dengan akurasi tepi tinggi berbasis deep-learning cluster AI.</p>
+    </section>
+
+    <div class="vault-container">
+      <div class="enterprise-vault" style="padding: 24px;">
+        <div class="studio-uploader" onclick="document.getElementById('rbgFileInput').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p id="uploadStatus">Drop Raw Asset Image Here</p>
+          <span>Mendukung ekstensi file PNG, JPG max resolusi 4K (5MB)</span>
+        </div>
+        <input type="file" id="rbgFileInput" accept="image/*" style="display: none;" onchange="handleRbgUpload(this)">
+
+        <div class="studio-preview" id="rbgPreviewArea" style="display: none;">
+          <div class="studio-canvas-render">
+            <img id="rbgResultImg" src="" alt="Neural AI Output Result">
+          </div>
+          <br>
+          <button class="action-btn" style="margin: 24px auto 0; display: inline-flex; box-shadow: 0 0 30px var(--accent-purple-glow); background: var(--accent-purple); color: #fff;" onclick="downloadRbgResult()">
+            Export transparent .PNG
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREMIUM SIGNATURE FOOTER -->
+  <footer>
+    <div><b>&copy; 2026 ZAXXYTOOLS INC.</b> — Global Distribution Enterprise Portal</div>
+    <div>Architecture Built by FebryWesker</div>
+  </footer>
+
+</div>
+
+<script>
+  // High-End SPA Tab Switcher
+  function switchDashboard(targetPanel) {
+    document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+    
+    const activeBtn = document.querySelector(`.menu-btn[data-target="${targetPanel}"]`);
+    if(activeBtn) activeBtn.classList.add('active');
+
+    document.querySelectorAll('.dashboard-segment').forEach(panel => panel.classList.remove('active'));
+    document.getElementById(`panel-${targetPanel}`).classList.add('active');
+    
+    // Auto-scroll smooth to content area
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Elite Status Log Component Template
+  function renderLoadingReceipt(text) {
+    return `
+      <div class="receipt-card">
+        <div class="receipt-header"><span>SYSTEM PROTOCOL LOG</span><span>COMPILING DATA</span></div>
+        <div class="loading-row">
+          <div class="luxury-spinner"></div>
+          <span>${text}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // Enterprise Error Logger Component
+  function renderErrorReceipt(message) {
+    return `
+      <div class="receipt-card" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.02);">
+        <div class="receipt-header" style="color: #ef4444;"><span>CRITICAL PROCESS FAULT</span><span>TERMINATED</span></div>
+        <div style="color: var(--text-main); font-weight: 500;">${message}</div>
+      </div>
+    `;
+  }
+
+  // Core Engine Module 1: Downloader
+  async function processDownloader() {
+    const url = document.getElementById('mediaUrl').value.trim();
+    const btn = document.getElementById('btnFetch');
+    const receiptZone = document.getElementById('downloaderReceipt');
+    
+    if (!url) return alert('Silakan tempel tautan video media terlebih dahulu!');
+    
+    btn.disabled = true;
+    receiptZone.innerHTML = renderLoadingReceipt("Sedang mengurai jalur unduhan media stream & mendekripsi payload...");
+
+    try {
+      const res = await (await fetch(`https://api.azbry.com/api/download/allinone?url=${encodeURIComponent(url)}`)).json();
+      if (res.status && res.result) {
+        const dataResult = res.result;
+        let mediaItemsHtml = '';
+        
+        dataResult.medias.forEach(media => {
+          let label = "Video Source File";
+          if (media.quality === "hd_no_watermark") label = "📹 Video Ultra HD (Tanpa Watermark)";
+          else if (media.quality === "no_watermark") label = "🎥 Video Standard (Tanpa Watermark)";
+          else if (media.quality === "audio") label = "🎵 Audio Track File (MP3 Format)";
+          else if (media.quality) label = "📹 Video Format " + media.quality.replace(/_/g, ' ');
+
+          mediaItemsHtml += `
+            <div class="download-row">
+              <div class="download-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="m-type">${label}</span></div>
+              <a href="${media.url}" target="_blank" class="download-trigger">Download</a>
+            </div>
+          `;
+        });
+
+        receiptZone.innerHTML = `
+          <div class="receipt-card">
+            <div class="receipt-header" style="color: var(--accent-gold)"><span>Task Complete</span><span>RESOLVED</span></div>
+            <div class="media-profile">
+              <div class="media-cover"><img src="${dataResult.thumbnail}" alt="Thumbnail Manifest"></div>
+              <div><div class="media-headline">${dataResult.title || 'Ekstraksi Media Berhasil'}</div></div>
+            </div>
+            <div class="download-directory">${mediaItemsHtml}</div>
+          </div>
+        `;
+      } else {
+        receiptZone.innerHTML = renderErrorReceipt('Tautan manifest media tidak valid atau dilindungi hak cipta.');
+      }
+    } catch(e) {
+      receiptZone.innerHTML = renderErrorReceipt('Koneksi terputus saat mengambil data stream.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // Core Engine Module 2: Cloner
+  async function processCloner() {
+    const targetUrl = document.getElementById('cloneUrl').value.trim();
+    const btn = document.getElementById('btnClone');
+    const receiptZone = document.getElementById('clonerReceipt');
+
+    if (!targetUrl) return alert('Silakan masukkan URL website tujuan!');
+
+    btn.disabled = true;
+    receiptZone.innerHTML = renderLoadingReceipt("Menganalisis dependensi DOM & mengunduh skrip eksternal...");
+
+    try {
+      const response = await fetch(`https://api.azbry.com/api/tools/webclone?url=${encodeURIComponent(targetUrl)}`);
+      const resData = await response.json();
+
+      if (resData.status && resData.result && resData.result.url) {
+        const fileUrl = resData.result.url;
+        const fileName = resData.result.filename || 'web-cloned-source.zip';
+        
+        receiptZone.innerHTML = `
+          <div class="receipt-card">
+            <div class="receipt-header" style="color: var(--accent-purple);"><span>Web Cloner Studio</span><span>SUCCESS</span></div>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom:16px;">Source code dari halaman <b>${targetUrl}</b> berhasil diekstrak dan dikompresi penuh.</p>
+            <div class="download-row">
+              <div class="download-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>${fileName}</span></div>
+              <a href="${fileUrl}" target="_blank" class="download-trigger" style="border-color: var(--accent-purple); color: var(--accent-purple);">Download ZIP</a>
+            </div>
+          </div>
+        `;
+      } else {
+        receiptZone.innerHTML = renderErrorReceipt(resData.message || 'Gagal mereplikasi aset struktural dari website target.');
+      }
+    } catch (e) {
+      receiptZone.innerHTML = renderErrorReceipt('Gagal melakukan handshake menuju gateway kloning.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // Core Engine Module 3: Neural Remove Background
+  let currentRbgBlobUrl = null;
+
+  async function handleRbgUpload(input) {
+    if (!input.files || !input.files[0]) return;
+    
+    const statusText = document.getElementById('uploadStatus');
+    const previewArea = document.getElementById('rbgPreviewArea');
+    const resultImg = document.getElementById('rbgResultImg');
+
+    statusText.innerText = "Mengunggah paket gambar ke server cloud tmpfiles...";
+    previewArea.style.display = "none";
+
+    const form = new FormData();
+    form.append('file', input.files[0]);
+
+    try {
+      const uploadRes = await fetch('https://tmpfiles.org/api/v1/upload', { method: 'POST', body: form });
+      const uploadData = await uploadRes.json();
+      
+      if (!uploadData.data || !uploadData.data.url) throw new Error("Fault");
+
+      const rawImgUrl = uploadData.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+      statusText.innerText = "Mengeksekusi isolasi piksel latar belakang via AI...";
+
+      const apiRes = await fetch(`https://api.azbry.com/api/tools/removebg?url=${encodeURIComponent(rawImgUrl)}`);
+      const blob = await apiRes.blob();
+      
+      if(currentRbgBlobUrl) URL.revokeObjectURL(currentRbgBlobUrl);
+      currentRbgBlobUrl = URL.createObjectURL(blob);
+
+      statusText.innerText = "Proses Berhasil! Latar belakang berhasil dihilangkan.";
+      resultImg.src = currentRbgBlobUrl;
+      previewArea.style.display = "block";
+
+    } catch (err) {
+      console.error(err);
+      statusText.innerText = "AI Vision gagal mendeteksi subjek utama.";
+      alert("Terjadi malfungsi pada kluster pemrosesan gambar.");
+    }
+  }
+
+  function downloadRbgResult() {
+    if(!currentRbgBlobUrl) return;
+    const a = document.createElement('a');
+    a.href = currentRbgBlobUrl;
+    a.download = 'transparent-result.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+</script>
+</body>
+</html>
