@@ -127,7 +127,12 @@
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 20px var(--accent-purple-glow);
-    font-weight: 700; font-size: 16px; color: #fff;
+    overflow: hidden;
+  }
+  .brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .brand-name b { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(to right, #fff, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
@@ -208,7 +213,7 @@
   }
   .status-indicator { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; }
 
-  /* PREMIUM SECURITY PASSKEY MODAL */
+  /* PREMIUM MODALS STRUCTURE */
   .security-modal-overlay {
     position: fixed;
     inset: 0;
@@ -309,7 +314,7 @@
   .input-icon { width: 20px; height: 20px; color: var(--text-muted); display: flex; align-items: center; }
   .main-input {
     flex: 1; background: transparent; border: none; outline: none;
-    color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px;
     padding: 14px 0; width: 100%;
   }
   .main-input::placeholder { color: #4b5563; }
@@ -431,6 +436,7 @@
   SYSTEM LOCKDOWN: Beberapa modul platform sedang dinonaktifkan untuk pemeliharaan terjadwal.
 </div>
 
+<!-- NATIVE SECURITY MODAL -->
 <div class="security-modal-overlay" id="securityModal">
   <div class="security-modal-box">
     <div class="security-modal-icon">
@@ -448,12 +454,26 @@
   </div>
 </div>
 
+<!-- HIGH-TIER ECOSYSTEM CUSTOM ALERT MODAL -->
+<div class="security-modal-overlay" id="customAlertModal">
+  <div class="security-modal-box" style="box-shadow: 0 40px 100px rgba(168, 85, 247, 0.25);">
+    <div class="security-modal-icon" id="customAlertIcon" style="background: rgba(168, 85, 247, 0.1); border-color: var(--accent-purple); color: var(--accent-purple);">
+      <!-- Dynamic SVG via JS -->
+    </div>
+    <h3 id="customAlertTitle" style="font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px;">System Info</h3>
+    <p id="customAlertMessage" style="color: var(--text-main); font-size: 14px; line-height: 1.6; margin-bottom: 24px; font-weight: 500;"></p>
+    <button class="modal-btn confirm" style="width: 100%; background: linear-gradient(135deg, var(--accent-purple), #6366f1);" onclick="closeCustomAlert()">Acknowledge</button>
+  </div>
+</div>
+
 <div class="premium-canvas"></div>
 
 <div class="nav-wrapper">
   <nav>
     <a class="brand" onclick="triggerAdminCounter()">
-      <div class="brand-logo">Z</div>
+      <div class="brand-logo">
+        <img src="zaxxy.png" alt="Zaxxy Logo">
+      </div>
       <div class="brand-name"><b>ZAXXYTOOLS</b></div>
     </a>
     
@@ -764,6 +784,48 @@
 
   let isAdminVerified = false;
 
+  // --- REPLACING TRADITIONAL ALERTS WITH PLATFORM LUXURY MODALS ---
+  function showCustomAlert(title, message, type = 'purple') {
+    const modal = document.getElementById('customAlertModal');
+    const titleEl = document.getElementById('customAlertTitle');
+    const messageEl = document.getElementById('customAlertMessage');
+    const iconZone = document.getElementById('customAlertIcon');
+    const btn = modal.querySelector('.modal-btn.confirm');
+    
+    titleEl.innerText = title;
+    messageEl.innerText = message;
+    
+    // Customization based on severity level
+    if (type === 'error') {
+      iconZone.style.background = 'rgba(239, 68, 68, 0.1)';
+      iconZone.style.borderColor = 'var(--accent-crimson)';
+      iconZone.style.color = 'var(--accent-crimson)';
+      iconZone.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.2)';
+      btn.style.background = 'linear-gradient(135deg, var(--accent-crimson), #b91c1c)';
+      iconZone.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+    } else if (type === 'warning') {
+      iconZone.style.background = 'rgba(242, 184, 75, 0.1)';
+      iconZone.style.borderColor = 'var(--accent-gold)';
+      iconZone.style.color = 'var(--accent-gold)';
+      iconZone.style.boxShadow = '0 0 20px rgba(242, 184, 75, 0.2)';
+      btn.style.background = 'linear-gradient(135deg, var(--accent-gold), #d97706)';
+      iconZone.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+    } else {
+      iconZone.style.background = 'rgba(168, 85, 247, 0.1)';
+      iconZone.style.borderColor = 'var(--accent-purple)';
+      iconZone.style.color = 'var(--accent-purple)';
+      iconZone.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.2)';
+      btn.style.background = 'linear-gradient(135deg, var(--accent-purple), #6366f1)';
+      iconZone.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+    }
+    
+    modal.classList.add('active');
+  }
+
+  function closeCustomAlert() {
+    document.getElementById('customAlertModal').classList.remove('active');
+  }
+
   // --- REAL-TIME DATA STREAM FROM FIREBASE NODES ---
   mtRef.on("value", (snapshot) => {
     const data = snapshot.val();
@@ -894,7 +956,7 @@
       closeSecurityModal();
       switchDashboard('admin');
     } else {
-      alert("ACCESS DENIED: Pass Key salah.");
+      showCustomAlert("Access Denied", "Pass Key yang Anda masukkan salah atau tidak terdaftar.", "error");
       document.getElementById('modalPassKeyField').value = "";
     }
   }
@@ -905,8 +967,14 @@
 
   function switchDashboard(targetPanel) {
     if (targetPanel === 'admin' && !isAdminVerified) { openSecurityModal(); return; }
-    if (maintenanceState.navbar && targetPanel !== 'admin') { alert("Akses Terkunci: Jalur navigasi sedang dalam pemeliharaan."); return; }
-    if (maintenanceState[targetPanel] && targetPanel !== 'admin') { alert(`Modul [${targetPanel.toUpperCase()}] sedang dinonaktifkan.`); return; }
+    if (maintenanceState.navbar && targetPanel !== 'admin') { 
+      showCustomAlert("Akses Terkunci", "Jalur navigasi utama ekosistem sedang berada dalam masa pemeliharaan.", "error"); 
+      return; 
+    }
+    if (maintenanceState[targetPanel] && targetPanel !== 'admin') { 
+      showCustomAlert("Module Suspended", `Modul [${targetPanel.toUpperCase()}] sedang dinonaktifkan untuk pemeliharaan terjadwal.`, "warning"); 
+      return; 
+    }
 
     document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.querySelector(`.menu-btn[data-target="${targetPanel}"]`);
@@ -945,7 +1013,7 @@
     const url = document.getElementById('mediaUrl').value.trim();
     const btn = document.getElementById('btnFetch');
     const receiptZone = document.getElementById('downloaderReceipt');
-    if (!url) return alert('Silakan tempel tautan video terlebih dahulu!');
+    if (!url) return showCustomAlert("Input Required", "Silakan tempel tautan video stream terlebih dahulu!", "warning");
     
     btn.disabled = true; 
     receiptZone.innerHTML = renderLoadingReceipt("Sedang mengurai jalur unduhan media stream...");
@@ -965,7 +1033,6 @@
           const mediaUrl = media.url || '';
           let label = "";
 
-          // 1. Klasifikasi AUDIO (MP3)
           if (type === 'audio' || quality === 'audio' || mediaUrl.includes('.mp3')) {
             label = `🎵 Audio Track — ${quality.toUpperCase() || 'MP3 Format'}`;
             audioHtml += `
@@ -975,7 +1042,6 @@
               </div>
             `;
           } 
-          // 2. Klasifikasi FOTO / GAMBAR
           else if (type === 'image' || type === 'photo' || quality === 'thumbnail' || quality.includes('jpg') || quality.includes('png') || mediaUrl.match(/\.(jpeg|jpg|gif|png|webp)/i)) {
             label = `🖼️ Image Asset — ${quality.toUpperCase() || 'Cover/Slide'}`;
             photoHtml += `
@@ -985,7 +1051,6 @@
               </div>
             `;
           } 
-          // 3. Klasifikasi VIDEO (MP4)
           else {
             if (quality === "hd_no_watermark") label = "📹 Video Ultra HD (No Watermark)";
             else if (quality === "no_watermark") label = "🎥 Video Standard (No Watermark)";
@@ -1001,7 +1066,6 @@
           }
         });
 
-        // Satukan kluster struktur berdasarkan kategori yang ada isinya
         let structuredDirectory = "";
         
         if (videoHtml) {
@@ -1033,7 +1097,8 @@
     if(maintenanceState.brat) return;
     const text = document.getElementById('bratText').value.trim(); const mode = document.getElementById('bratMode').value;
     const btn = document.getElementById('btnBrat'); const receiptZone = document.getElementById('bratReceipt');
-    if (!text) return alert('Silakan isi teks terlebih dahulu!');
+    if (!text) return showCustomAlert("Silakan isi teks terlebih dahulu!", "Mohon masukkan data teks sebelum menjalankan kalkulasi generator.", "warning");
+    
     btn.disabled = true; receiptZone.innerHTML = renderLoadingReceipt("Memproses kalkulasi gaya brat...");
     let apiUrl = mode === 'vid' ? 'https://api.azbry.com/api/maker/bratvid' : (mode === 'canvas' ? 'https://api.azbry.com/api/maker/bratcanvas' : 'https://api.azbry.com/api/maker/brat');
     try {
@@ -1055,7 +1120,7 @@
     if(maintenanceState.cloner) return;
     const targetUrl = document.getElementById('cloneUrl').value.trim();
     const btn = document.getElementById('btnClone'); const receiptZone = document.getElementById('clonerReceipt');
-    if (!targetUrl) return alert('Masukkan URL website target!');
+    if (!targetUrl) return showCustomAlert("Input Required", "Masukkan URL website target secara valid!", "warning");
     btn.disabled = true; receiptZone.innerHTML = renderLoadingReceipt("Menganalisis dependensi struktural halaman...");
     try {
       const response = await fetch(`https://api.azbry.com/api/tools/webclone?url=${encodeURIComponent(targetUrl)}`);
