@@ -1,1 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass, Zaxxy Tools</title>
+    <!-- Font Premium: Playfair Display untuk Serif & Inter untuk UI modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #111215;
+            --bg-card: #16171b;
+            --border-color: #26272b;
+            --gold-accent: #cfa86b;
+            --text-bright: #e3e4e6;
+            --text-muted: #71747a;
+            --text-label: #8c8f94;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-bright);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            width: 100%;
+            max-width: 520px;
+            border-radius: 4px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-line {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            color: var(--gold-accent);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .line {
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: var(--gold-accent);
+            font-size: 36px;
+            font-weight: 500;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 32px 0;
+        }
+
+        label {
+            display: block;
+            color: var(--text-label);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            background-color: #111214;
+            border: 1px solid #2c2d33;
+            padding: 16px;
+            color: var(--text-bright);
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            outline: none;
+        }
+
+        input[type="url"]:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 0 1px var(--gold-accent);
+        }
+
+        input[type="url"]::placeholder {
+            color: #3e4046;
+        }
+
+        button {
+            width: 100%;
+            background-color: transparent;
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: rgba(207, 168, 107, 0.05);
+            letter-spacing: 0.22em;
+        }
+
+        button:disabled {
+            border-color: var(--border-color);
+            color: #4c4e54;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 32px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+        }
+
+        .status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .status-bullet {
+            font-size: 10px;
+            color: #4c4e54;
+        }
+
+        .status-bullet.loading { color: #f59e0b; }
+        .status-bullet.active { color: #10b981; }
+        .status-bullet.error { color: #ef4444; }
+
+        .status-text {
+            color: var(--text-label);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .output-container {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        .output-container a {
+            color: var(--gold-accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed var(--gold-accent);
+            padding-bottom: 2px;
+        }
+
+        .output-container a:hover {
+            color: #e5c38c;
+            border-bottom-style: solid;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-line">
+        <span class="badge">Link Utility</span>
+        <div class="line"></div>
+    </div>
+    
+    <h2>Bypass, Refined.</h2>
+    <p class="description">Tempel URL yang dilindungi shortener, dan dapatkan tujuan aslinya dalam satu langkah bersih.</p>
+
+    <form id="bypassForm">
+        <label for="urlInput">URL Sumber</label>
+        <input type="url" id="urlInput" placeholder="https://domain.com" required>
+        <button type="submit" id="submitBtn">Bypass Sekarang</button>
+    </form>
+
+    <div class="result-box">
+        <div class="status-wrapper">
+            <span class="status-bullet" id="statusBullet">●</span>
+            <span class="status-text" id="statusText">Menunggu Input</span>
+        </div>
+        <div id="output" class="output-container">Hasil bypass akan muncul di sini.</div>
+    </div>
+</div>
+
+<script>
+    const BASE_HEADERS = {
+        "accept": "*/*",
+        "cache-control": "no-cache",
+        "pragma": "no-cache"
+    };
+
+    async function getToken() {
+        const res = await fetch("https://bypass-links.com/api/token", {
+            method: "GET",
+            headers: BASE_HEADERS
+        });
+        if (!res.ok) throw new Error(`Gagal mengambil token: ${res.statusText}`);
+        const data = await res.json();
+        return data.token;
+    }
+
+    async function bypassLink(url) {
+        const bypass_token = await getToken();
+        const res = await fetch("https://bypass-links.com/api/bypass", {
+            method: "POST",
+            headers: {
+                ...BASE_HEADERS,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ url, bypass_token })
+        });
+        if (!res.ok) throw new Error(`Gagal bypass: ${res.statusText}`);
+        return await res.json();
+    }
+
+    document.getElementById("bypassForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const urlInput = document.getElementById("urlInput").value;
+        const submitBtn = document.getElementById("submitBtn");
+        const output = document.getElementById("output");
+        const statusText = document.getElementById("statusText");
+        const statusBullet = document.getElementById("statusBullet");
+
+        submitBtn.disabled = true;
+        statusText.textContent = "Sedang memproses";
+        statusBullet.className = "status-bullet loading";
+        output.innerHTML = '<span style="color: var(--text-muted);">Mengekstrak tautan asli...</span>';
+
+        try {
+            const result = await bypassLink(urlInput);
+            
+            // Logika ekstraksi pintar untuk langsung mendapatkan string URL bersih
+            let directLink = "";
+            if (typeof result === 'string') {
+                directLink = result;
+            } else if (result && (result.destination || result.bypassed_url || result.url || result.link || result.direct)) {
+                directLink = result.destination || result.bypassed_url || result.url || result.link || result.direct;
+            } else if (result && typeof result === 'object') {
+                // Fallback: cari value pertama di dalam objek JSON yang berupa HTTP URL
+                const values = Object.values(result);
+                const foundUrl = values.find(v => typeof v === 'string' && v.startsWith('http'));
+                directLink = foundUrl || JSON.stringify(result);
+            }
+
+            statusText.textContent = "Proses Selesai";
+            statusBullet.className = "status-bullet active";
+
+            // Tampilkan link langsung jika formatnya valid URL
+            if (directLink.startsWith('http')) {
+                output.innerHTML = `<a href="${directLink}" target="_blank" rel="noopener noreferrer">${directLink} ↗</a>`;
+            } else {
+                output.textContent = directLink;
+            }
+        } catch (err) {
+            statusText.textContent = "Gagal";
+            statusBullet.className = "status-bullet error";
+            output.innerHTML = `<span style="color: #ef4444;">${err.message}</span>`;
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
 
