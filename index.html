@@ -381,11 +381,11 @@
   .download-title { color: var(--text-main); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
   .download-title svg { width: 16px; height: 16px; color: var(--accent-purple); }
   
-  a.download-trigger {
+  a.download-trigger, button.download-trigger {
     background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-main);
-    text-decoration: none; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 8px; transition: all 0.2s;
+    text-decoration: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 8px; transition: all 0.2s; cursor: pointer;
   }
-  a.download-trigger:hover { background: #fff; color: var(--bg-base); border-color: #fff; box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+  a.download-trigger:hover, button.download-trigger:hover { background: #fff; color: var(--bg-base); border-color: #fff; box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
 
   /* BRAT DISPLAY ARCHITECTURE */
   .brat-preview-container { text-align: center; margin-top: 20px; animation: segmentReveal 0.5s ease; }
@@ -498,12 +498,17 @@
           Web Cloner
         </button>
         <button class="menu-btn" data-target="removebg" onclick="switchDashboard('removebg')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 2 12 22Z"/><circle cx="12" cy="12" r="3"/></svg>
           Remove BG
         </button>
         <button class="menu-btn" data-target="videy" onclick="switchDashboard('videy')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
           Videy Uploader
+        </button>
+        <!-- NEW LINK BYPASS NAVIGATION BUTTON -->
+        <button class="menu-btn" onclick="window.location.href='bypass.html'" style="border-top: 1px dashed rgba(6,182,212,0.3); color: var(--accent-cyan);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          Link Bypass
         </button>
         <button class="menu-btn" id="navAdminBtn" data-target="admin" onclick="switchDashboard('admin')" style="display: none; border-top: 1px dashed rgba(168,85,247,0.3); color: var(--accent-gold);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -1106,14 +1111,33 @@
       const blob = await response.blob(); if(currentBratBlobUrl) URL.revokeObjectURL(currentBratBlobUrl);
       currentBratBlobUrl = URL.createObjectURL(blob);
       let preview = mode === 'vid' ? `<video src="${currentBratBlobUrl}" autoplay loop muted playsinline></video>` : `<img src="${currentBratBlobUrl}">`;
+      
+      // FIXED DOWNLOAD ACTION VIA SECURE BUTTON INSTEAD OF BLANK EXTENSION INLINE LINK
       receiptZone.innerHTML = `
         <div class="receipt-card">
           <div class="receipt-header" style="color: var(--accent-purple);"><span>BRAT GENERATOR</span><span>COMPLETE</span></div>
-          <div class="brat-preview-container"><div class="brat-output-render">${preview}</div><br>
-          <a href="${currentBratBlobUrl}" download="brat-output" class="download-trigger" style="margin-top:20px; display:inline-block; width:200px; text-align:center;">Download File</a></div>
+          <div class="brat-preview-container">
+            <div class="brat-output-render">${preview}</div>
+            <br>
+            <button type="button" onclick="downloadBratResult()" class="download-trigger" style="margin-top:20px; display:inline-block; width:200px; text-align:center;">Download File</button>
+          </div>
         </div>
       `;
     } catch(e) { receiptZone.innerHTML = renderErrorReceipt('Gagal merender teks.'); } finally { btn.disabled = false; }
+  }
+
+  // --- NEW EXPLICIT BRAT DOWNLOAD ENGINE MECHANISM ---
+  function downloadBratResult() {
+    if (!currentBratBlobUrl) return;
+    const mode = document.getElementById('bratMode').value;
+    const extension = mode === 'vid' ? '.mp4' : '.png';
+    
+    const virtualLink = document.createElement('a');
+    virtualLink.href = currentBratBlobUrl;
+    virtualLink.download = `brat-output_${Date.now()}${extension}`;
+    document.body.appendChild(virtualLink);
+    virtualLink.click();
+    document.body.removeChild(virtualLink);
   }
 
   async function processCloner() {
